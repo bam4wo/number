@@ -11,12 +11,19 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView zero;
     int counter;
+    int secret = new Random().nextInt(10)+1;
+    private ImageView result;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,12 +31,24 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         zero = findViewById(R.id.zero);
+        result = findViewById(R.id.result);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 counter++;
                 zero.setText(String.valueOf(counter));
+                result.setAlpha(1.0f);
+                result.setVisibility(View.VISIBLE);
+                if(counter == secret){
+                    Toast.makeText(MainActivity.this,"haha",Toast.LENGTH_LONG).show();
+                    result.setImageResource(R.drawable.ghost);
+                    result.animate().alpha(0.0f).setDuration(2500);
+                }else {
+                    result.setImageResource(R.drawable.pig);
+                    result.animate().alpha(0.0f).setDuration(1200);
+                }
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         //.setAction("Action", null).show();
             }
